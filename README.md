@@ -332,3 +332,101 @@ abstract class Auto extends Transporte {
     // ... 
 }
 ```
+- Una clase abstracta puede extender de otra clase e implementar de muchas interfaces, ejemplo:
+```java
+interface Device {}
+interface Game {}
+
+class Entertainment {}
+
+abstract class Console extends Entertainment implements Device, Game {
+    
+}
+```
+
+Abordaremos las particularidades de las interfaces en un momento.
+
+OJO: cuando una clase concreta extiende de una clase abstracta está obligado a dar comportamiento a lo que dicta la clase abstracta. Ejemplo:
+```java
+abstract class Animal {
+    public abstract void hacerRuido();
+}
+
+class Gato extends Animal {
+    @Override
+    public void hacerRuido() {
+        System.out.println("Miauuuuu");
+    }
+}
+```
+en este ejemplo la clase Gato al momento de decir "extends Animal" se vió obligada a declarar
+un método llamado "hacerRuido()" y poner algo de código entre {}.
+
+![img](imgs/atencion2.jpeg)
+
+OJO: las clases abstractas pueden tener una mezcla de métodos abstractos y no abstractos, lo siguiente es perfectamente válido:
+
+```java
+abstract class Animal {
+    public abstract void hacerRuido();
+}
+
+abstract class Mamifero {
+    
+    public void dormir() {
+        System.out.println("zzzZZZzzZZZ");
+    }
+    
+    public abstract void comer();
+}
+```
+
+En el ejemplo anterior podemos ver como la clase abstracta "Mamifero" tiene un método con implementación (dormir()) y otro sin implementación. Quizás tengas la pregunta de para qué sería útil esto.
+
+Una clase padre puede dar un comportamiento base a sus hijos, es decir, el hijo puede sobreescribir el comportamiento del padre pero esto es opcional.
+
+Imagina esto, una clase abstracta llamada "Carro", esta clase puede tener un comportamiento
+"base" de la siguiente manera:
+
+```java
+abstract class Carro {
+    public void correr() {
+        System.out.println("Run run run ... ");
+    }
+}
+
+class Mazda extends Carro {
+    ///
+}
+```
+En este caso tiene todo el sentido del muno, de cierta manera ya sabemos cómo corre o anda un "Carro", así que la clase padre puede dar 
+ya por defecto este comportamiento, es opcional para la clase Hija sobreescribir o no, es decir, la clase hija puede decidir quedarse con el comportamiento de la clase
+Padre o dar el propio, ejemplo:
+
+```java
+
+abstract class Carro {
+    public void correr() {
+        System.out.println("Run run run ... ");
+    }
+}
+
+class Mazda extends Carro {
+    @Override
+    public void correr() {
+        System.out.println("Run run like a Mazda!!");
+    }
+}
+```
+El ejemplo anterior es totalmente válido.
+
+Es importante quedarnos con la idea siguiente:
+- Una clase abstracta puede tener métodos abstractos y no-abstractos.
+
+
+Intentaré explicar las particularidades de las **interface**s y a continuación
+veremos las diferencias entre una clase abstracta y una interface.
+
+### Interfaces
+
+- 
