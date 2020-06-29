@@ -133,6 +133,15 @@ class Versa extends Carro {
 También podríamos decir que *Versa* es una implementación de la clase Carro. ¿Por qué una implementación? porque ya no estamos hablando en términos generales (abstracciones), sino que 
 ya damos vida a algo concreto.
 
+Recuerde también que Java solo maneja herencia simple, solo puedes extender o heredar de una clase a la vez, lo siguiente es inválido:
+
+```java
+class Versa extends Carro, Transporte {
+
+}
+```
+El compilador marcaría un error ahí. Hay maneras de "simular" herencia múltiple por medio del uso de interfaces.
+
 Todo lo anterior nos dice que las siguientes declaraciones son válidas:
 
 ```java
@@ -142,7 +151,148 @@ Animal lazy = new Perro();
 ```java
 Perro dog = new Labrador();
 ```
-Y aquí nos metemos con otro conjunto de palabras, frases o vocabulario que necesito que domine.
 
-### package (abstract)
+```java
+Carro miVersa = new Versa();
+```
 
+Lo siguiente se ve raro pero es igual de válido:
+```java
+Object lazy = new Perro();
+```
+
+Es válido porque **Object** es la clase padre de todas las clases.
+
+Y aquí nos metemos con otro conjunto de palabras, frases o vocabulario que necesito que domine. Supongamos la siguiente declaración:
+
+```java
+Animal tommy = new Perro();
+```
+Sobre la declaración anterior podemos decir lo siguiente, y es super importante que todo lo que ponga a continuación se le 
+ocurra de manera natural:
+
+- *tommy* es un Perro.
+- El tipo de referencia de *tommy* es "Animal".
+- "tommy" apunta a un "Perro", aquí haré una parada para explícarle detenidamente a qué me refiero con esto de "referencia".
+
+Lo que está al lado izquiero del "=" es la referencia, es lo apunta a algo concreto (new Perro()).
+
+Una referencia es algo que apunta a algo. En Java tenemos dos zonas de principales de memoria.
+El **stack** y el **heap**.
+En el stack se guardan las referencias y las variables primitivas, con guardar me refiero a que en esta zona de memoria podemos entender que se guardan las direcciones de memoria que referencian los objetos que están en el **heap**.
+
+| reference name | address |
+|----------------|---------|
+| lazy| 0xab7|
+| versa | 0xbd2|
+
+Entonces, cuando vea un método como el siguiente:
+
+```java
+public void foo(Animal an) {
+
+}
+```
+
+Usted debe pensar algo como:
+
+El método "foo" recibe como argumento una referencia de tipo "Animal".
+
+¿Y qué le podemos pasar al método foo()?
+
+Cualquier cosa que esté al mismo nivel de Animal o abajo, ejemplo:
+
+```java
+foo(new Perro());
+```
+
+```java
+foo(new Animal());
+```
+
+```java
+foo(new Labrador());
+```
+
+```java
+foo(new Chihuahua());
+```
+
+Esto es **polimorfismo**, algo que explicaré un poco más adelante.
+
+### Tiempo de hacer algunos ejercicios.
+
+Coloque en el directorio "ejercicios", 5 ejemplos de abstracciones y algunas clases concretas, es decir, algo como:
+```java
+class Animal {}
+
+class Perro extends Animal {}
+
+class Chihuahua extends Perro {}
+```
+
+Piense en 5 abstracciones y declare sus clases.
+
+
+## Uso de clases abstractas en Java
+
+Para esta explicación necesito que explore el proyecto de NetBeans (code-snippets), abra el archivo
+"Animal.java", contiene algo como esto:
+
+```java
+package com.training.domain.animal;
+
+public abstract class Animal {
+    public abstract void hacerRuido();
+}
+
+```
+
+Nótese cómo se ha utilizado el modificador "abstract". En Java existen diversos modificadores.
+"abstract" es uno, y con dicho modificador le decimos al compilador que "Animal" es una clase abstracta. Fíjese también que hay dentro la declaración o firma de un método llamado
+"hacerRuido()" de tipo *void*. Lo importante aquí con dicho método es que
+no tiene implementación, no hay algo como:
+```java
+public void hacerRuido() {
+
+}
+```
+
+Ojo con la siguiente pregunta, teniendo en cuenta la clase anterior ¿cree usted que lo siguiente es válido?
+
+```java
+Animal miPerro = new Animal();
+```
+
+La respuesta es ¡No!, el compilador daría un error, el porqué es muy sencillo.
+¿Cómo podría crear un objeto la máquina virtual JVM si "Animal" no tiene forma?
+La clase es abstracta, carece de forma. La finalidad u objetivo de una
+clase abstracta es ser extendida, se espera que una clase concreta implemente o dé comportamiento
+a lo estipulado en la clase abstracta Animal.
+
+Como conclusión, no se pueden crear instancias u objetos de clases Abstractas, por la simple
+razón de que es abstracta, carece de forma, de comportamiento, la máquina virtual no sabría
+qué forma o implementación darle al método "hacerRuido".
+
+Abra la clase "Gato" en el mismo paquete y verá algo como esto:
+```java
+public class Gato extends Animal {
+    @Override
+    public void hacerRuido() {
+        System.out.println("Miauuuuu");
+    }
+}
+
+```
+
+De esto podemos decir:
+
+- Gato extiende de Animal.
+- Gato es una implementación de Animal.
+- Gato es una clase concreta.
+- Gato extiende de Animal y dá un comportamiento específico basado en su propia naturaleza ("Miauuuu").
+- Animal es la clase base o padre de Gato.
+
+Se habrá usted fijado en la anotación @Override, ¿para qué sirve?
+
+La explicación es sencilla, es simplemente un mecanismo del lenguaje para 
