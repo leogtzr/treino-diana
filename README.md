@@ -295,4 +295,40 @@ De esto podemos decir:
 
 Se habrá usted fijado en la anotación @Override, ¿para qué sirve?
 
-La explicación es sencilla, es simplemente un mecanismo del lenguaje para 
+La explicación es sencilla, es simplemente un mecanismo del lenguaje para que quien esté leyendo el código fuente sepa que en ese punto se está sobreescribiendo el método desde una clase padre.
+Imagina que es una clase de más 500 líneas de código y con varios métodos, y que ninguno de estos métodos tiene la anotación @Override, sería difícil saber en qué punto el programador
+está sobreescribiendo un método de la clase Padre, claro que hoy en día hay 
+IDEs que nos lo dicen pero bueno ... para eso sirve el @Override.
+
+### Algunas reglas sobre las clases abstractas
+
+- Si algún método tiene el modificador "abstract" entonces la clase debe ser marcada como "abstract":
+```java
+class X {
+    abstract void foo();
+}
+```
+tiene que ser cambiada a 
+```java
+abstract class X {
+    abstract void foo();
+}
+```
+- Si un método tiene el modificador "abstract" entonces no puede tener implementación, lo siguiente sería un error:
+```java
+public abstract void foo() {
+    /// 
+}
+```
+La explicación es la misma, con el modificador estamos diciendo que "no tiene forma", que quien sea
+que extienda de la clase debe de dar el comportamiento específico.
+- Una clase abstracta puede extender de otra clase abstracta, lo siguiente es perfectamente válido:
+```java
+abstract class Transporte {
+    // ...
+}
+
+abstract class Auto extends Transporte {
+    // ... 
+}
+```
