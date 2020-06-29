@@ -475,3 +475,75 @@ interface Volador {
 ```
 por tanto, todas las "variables" que se declaren dentro de una interface son en realidad constantes.
 
+Esto es lo que debemos de recordar:
+
+    Se dice que las interfaces son un contrato, en dicho contrato se estipulan
+    las reglas con las que las clases concreta deben cumplir.
+
+Es decir, las interfaces contienen solo las firmas de los métodos y se espera que las clases
+den una implementación a dichos métodos.
+
+- Otra regla: las interfaces pueden extender de otras interfaces, a continuación un ejemplo burdo:
+
+```java
+interface A {
+    
+}
+
+interface B {
+    
+}
+
+interface C extends A, B {
+    
+}
+
+class D implements C {
+    
+}
+```
+
+Nótese cómo la clase C extiende de A y B, mucho ojo, es "extends", no "implements", es un error común confundir los modificadores aquí y suele ser una pregunta que se encuentra en distintos quizzes de entrevistas.
+
+La clase D en el ejemplo anterior tiene que implementar todo lo anterior, es decir, todo el
+comportamiento de C, A y B, porque C acarrea todo lo de A y B.
+
+- Analicémos el siguiente ejemplo:
+
+```java
+interface Flyer {
+    void fly();
+}
+
+class Superman implements Flyer {
+    @Override
+    public void fly() {
+        System.out.println("Vuelo como Superman ...");
+    }
+}
+
+class Dron implements Flyer {
+    @Override
+    public void fly() {
+        System.out.println("Vuelo como un Dron ... ");
+    }
+}
+```
+
+Ahora veamos cómo podemos usar esa interface y las clases:
+
+```java
+public static void main(final String[] args) {
+    Flyer superman = new Superman();
+    Flyer dron = new Dron();
+    
+    volemos(superman);
+    volemos(dron);
+}
+
+private static void volemos(Flyer flyer) {
+    flyer.fly();
+}
+```
+
+Aquí vemos un ejemplo clásico de polimorfismo.
