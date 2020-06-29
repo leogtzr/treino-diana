@@ -429,4 +429,49 @@ veremos las diferencias entre una clase abstracta y una interface.
 
 ### Interfaces
 
-- 
+- Las interfaces no pueden tener comportamiento base, es decir, no pueden tener métodos con implementación. Este es un ejemplo de una interface:
+
+```java
+interface Volador {
+    void volar();
+}
+```
+
+Lo siguiente sería un error:
+
+```java
+interface Volador {
+    void volar() {
+        
+    }
+}
+```
+
+- Con las interfaces hay ciertas cosas que tomar en cuenta respecto a los modificadores
+    - Todos los métodos dentro de una interface son "public", no importa que no lo veas, es decir, si tú ves algo así:
+```java
+interface Volador {
+    void volar();
+}
+```
+el compilador modifica el código y lo pone de la siguiente manera:
+```java
+interface Volador {
+    public void volar();
+}
+```
+de nuevo, todo lo que esté dentro de una interface es "public".
+- Variables dentro de una interface son en realidad: *public static*, ejemplo:
+```java
+interface Volador {
+    int altura = 33;
+}
+```
+lo que hace el compilador es cambiar el código a lo siguiente:
+```java
+interface Volador {
+    public static int altura = 33;
+}
+```
+por tanto, todas las "variables" que se declaren dentro de una interface son en realidad constantes.
+
