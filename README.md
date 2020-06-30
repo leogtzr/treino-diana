@@ -612,3 +612,58 @@ new Flyer() {
 
 Creamos una clase anónima y al final invocamos el método fly(). Es una sintaxis perfectamente válida que es muy común en lenguajes como Java y C#.
 
+### Un comentario más sobre interfaces y clases concretas.
+
+Supongamos los siguientes métodos:
+
+1) 
+```java
+private static void printList1(List<String> names) {
+    for (String name : names) {
+        System.out.println(name);
+    }
+}
+```
+
+2)
+```java
+private static void printList2(ArrayList<String> names) {
+    for (String name : names) {
+        System.out.println(name);
+    }
+}
+```
+La única diferencia en ambos métodos es que en 1) el parámetro es List<String>, en 2) el parámetro es ArrayList<String>. ¿Cuál es mejor?
+
+Aquí aplica el principio "depend on abstractions, not on concretions". Haga una pausa aquí e investigue un poco más sobre el tema. Pero igual le adelanto que la primera versión es la mejor. ¿Por qué? es mejor depender en abstracciones que
+en cosas concretas.
+Si mira usted el javadoc verá que List<T> es una interface, es algo genérico, una abstracción.
+
+![img](imgs/list.png)
+
+En la imagen anterior puede ver que AbstractList, AbstractSequentialList, ArrayList y otras implementan el contrato de List. Eso significa que a la versión 1) le podemos envíar objetos con todos esos tipos.
+
+En la versión 2) estamos forzados a solo poder envíarle objetos de tipo ArrayList ...
+
+#### Ejercicio sobre lo anterior
+
+Investigar un poco más sobre el principio "depend on abstractions, not on concretions"
+
+### ¿Qué es composición?
+
+En términos sencillos composición es simplemente tener un objeto como propiedad dentro de una clase. Supongamos que tenemos una clase llamada "Carro" y otra clase llamada "Motor" que tiene todas las propiedades de un motor. 
+Podríamos decir que un carro tiene un motor, ¿no? así es, aquí ejercitamos el principio "has a", "tiene un", un Carro tiene un Motor.
+
+```java
+class Motor {
+    /// Propiedades de un motor...
+}
+
+class Carro {
+    private Motor motor;
+    public Carro(Motor motor) {
+        this.motor = motor;
+    }
+    // getter y setters ... 
+}
+```
