@@ -546,4 +546,69 @@ private static void volemos(Flyer flyer) {
 }
 ```
 
-Aquí vemos un ejemplo clásico de polimorfismo.
+Aquí vemos un ejemplo clásico de **polimorfismo**. Vemos como el método "volemos" recibe una referencia de tipo genérica, o una referencia abstracta y eso nos da pie
+a que podamos envíarle cualquier cosa que sea un "Flyer". Usando el concepto de "is-a" podemos
+sin problemas pasarle un objeto de tipo "Superman" o "Dron", ambos cumplen el contrato de ser un
+"Flyer". El polimorfismo no es mas que usar una referencia de tipo genérica apuntando a algo más específico, algo que esté abajo de su jerarquía, algo que extienda de ello. 
+
+### Diferencias entre las clases abstractas e interfaces
+
+- Las clases abstractas pueden tener comportamientos base, es decir, pueden tener métodos abstractos y no abstractos, las interfaces NO, en ellas solo se declara la firma de los métodos.
+- De las interfaces las clases implementan, de las clases abstractas extienden.
+- Los métodos y constantes en las interfaces siempre tienen los modificadores de acceso: **public static**, se los pongas o no.
+
+### ¿Se pueden crear instancias/objetos de las clases abstractas o interfaces?
+
+Habrá ocasiones en las que vea código de la siguiente manera:
+
+```java
+interface Flyer {
+    void fly();
+}
+
+public static void main(final String[] args) {
+    Flyer flyer = new Flyer() {
+        @Override
+        public void fly() {
+            System.out.println("I am flying!!!");
+        }
+    };
+}
+```
+A esta sintaxis particular se le llama **"clase anómina"**, no fue necesario crear una clase que implementara de *Flyer*, se hizo *on the fly*, "in situ", ahí mismo.
+
+El compilador lo que vió fue algo como esto:
+
+```java
+class ? implements Flyer {
+    @Override
+    public void fly() {
+        System.out.println("I am flying!!!");
+    } 
+}
+```
+
+Es anónima porque no necesitó un nombre. La declaración es válida ya que estamos cumpliendo con el contrato dictado por la interface "Flyer".
+Estamos dando implementación al método "fly()".
+
+Pero ¡OJO!, anteriormente mencionamos que no se pueden crear una instancia de una interface o de una clase abstracta, no es que estemos incumpliendo con esto que mencionamos, una clase anónima es distinto, es:
+
+```java
+class ? implements Flyer { ... }
+```
+
+Estamos declarando una clase en ese momento y estamos dando ahí mismo el comportamiento.
+
+La siguiente sintaxis ya no debería sorprendernos tampoco:
+
+```java
+new Flyer() {
+    @Override
+    public void fly() {
+        System.out.println("Vuelo como un Dron!");
+    }
+}.fly();
+```
+
+Creamos una clase anónima y al final invocamos el método fly(). Es una sintaxis perfectamente válida que es muy común en lenguajes como Java y C#.
+
